@@ -52,17 +52,19 @@
         </button>
       </MyFlex>
       <MyFlex
-        class="flex-initial"
-        style="width: 1800px;height: 1600px;background-color: lavender;"
+        class="flex-initial flex flex-column"
+        style="width: 1800px;height: 1600px;background-color: lavender; gap: 8px;"
       >
-        <span>
-          Bottom Right
-        </span>
+        <MyFlex
+          class="justify-content-start"
+          style="gap: 8px;"
+        >
+        </MyFlex>
+        <MyFlex v-slot="content">
       </MyFlex>
     </MyFlex>
   </MyFlex>
 </template>
 
 <script setup lang="ts">
-
 </script>
