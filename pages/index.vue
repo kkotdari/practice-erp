@@ -58,9 +58,8 @@
         <MyFlex
           class="justify-content-start"
           style="gap: 8px;"
-        >
-        </MyFlex>
-        <MyFlex v-slot="content">
+        />
+        <MyFlex v-slot="content" />
       </MyFlex>
     </MyFlex>
   </MyFlex>

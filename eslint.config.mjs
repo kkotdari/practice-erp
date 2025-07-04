@@ -3,8 +3,13 @@ import withNuxt from './.nuxt/eslint.config.mjs'
 
 export default withNuxt({
   rules: {
-    'vue/multi-word-component-names': 'off',
-    '@typescript-eslint/ban-types': 'off',
-    '@typescript-eslint/no-unused-vars': 'warn',
+    'vue/block-order': ['error', {
+      order: ['template', 'script', 'style'],
+    }],
+    'vue/html-indent': ['error', 2, {
+      baseIndent: 1,
+      alignAttributesVertically: true,
+      attributeIndent: 1,
+    }]
   },
 })
