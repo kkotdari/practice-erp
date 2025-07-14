@@ -16,6 +16,7 @@
     "@primevue/nuxt-module": "^4.3.5",
     "nuxt": "^3.17.5",
     "pinia": "^3.0.3",
+    "@pinia/nuxt": "^0.5.5",
     "primeflex": "^4.0.0",
     "primeicons": "^7.0.0",
     "primevue": "^4.3.5",

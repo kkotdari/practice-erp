@@ -9,51 +9,36 @@
         class="flex-initial flex justify-content-center align-items-center"
         style="width: 200px;height: 200px;background-color:lightcyan;"
       >
-        <span>
+        <span v-on:click="toggleSidebar">
           Logo
         </span>
       </MyFlex>
       <MyFlex
-        class="flex-initial"
+        class="flex-initial flex flex-column justify-content-between align-items-start"
         style="width: 1800px;height: 200px;background-color: aquamarine;"
       >
         <span>
           Top Right
         </span>
+        <Tabbar />
       </MyFlex>
     </MyFlex>
     <MyFlex
       class="flex-initial flex justify-content-start align-items-start"
     >
-      <MyFlex
+      <Sidebar
+        v-show="isSidebarVisible"
+        :style="{
+          width: isSidebarVisible ? '200px' : '0',
+          overflow: 'hidden',
+          transition: 'width 0.5s cubic-bezier(.075,.82,.165,1)',
+        }"
+        style="height: 1600px;background-color: lightgoldenrodyellow;"
         class="flex-initial flex flex-column justify-content-start gap-2"
-        style="width: 200px;height: 1600px;background-color: lightgoldenrodyellow;"
-      >
-        <button>
-            Left GNB Menu-1
-        </button>
-        <button>
-            Left GNB Menu-2
-        </button>
-        <button>
-            Left GNB Menu-3
-        </button>
-        <button>
-            Left GNB Menu-4
-        </button>
-        <button>
-            Left GNB Menu-5
-        </button>
-        <button>
-            Left GNB Menu-6
-        </button>
-        <button>
-            Left GNB Menu-7
-        </button>
-      </MyFlex>
+      />
       <MyFlex
         class="flex-initial flex flex-column"
-        style="width: 1800px;height: 1600px;background-color: lavender; gap: 8px;"
+        style="height: 1600px;background-color: lavender; gap: 8px;"
       >
         <MyFlex
           class="justify-content-start"
@@ -66,4 +51,11 @@
 </template>
 
 <script setup lang="ts">
+import Sidebar from '~/pages/sidebar/index.vue'
+import Tabbar from '~/pages/tabbar/index.vue'
+
+const isSidebarVisible = ref(false)
+const toggleSidebar = () => {
+  isSidebarVisible.value = !isSidebarVisible.value
+}
 </script>
