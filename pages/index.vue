@@ -30,14 +30,7 @@
       class="flex-initial flex justify-content-start align-items-start"
     >
       <Sidebar
-        v-show="isSidebarVisible"
-        :style="{
-          width: isSidebarVisible ? '200px' : '0',
-          overflow: 'hidden',
-          transition: 'width 0.5s cubic-bezier(.075,.82,.165,1)',
-        }"
-        style="height: 1600px;background-color: lightgoldenrodyellow;"
-        class="flex-initial flex flex-column justify-content-start gap-2"
+        :isVisible=isSidebarVisible
       />
       <MyFlex
         class="flex-initial flex flex-column"
