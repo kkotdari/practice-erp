@@ -13,7 +13,7 @@
           Logo
         </span>
         <span v-on:click="toggleSidebar">
-          {{ isSidebarVisible ? "Close Sidebar" : "Open Sidebar" }}
+          {{ isSidebarVisible ? "← Close" : "→ Open" }}
         </span>
       </MyFlex>
       <MyFlex
