@@ -7,6 +7,7 @@ export interface Tab{
 }
 
 export const useTabStore = defineStore('tabs', () => {
+  const menuStore = useMenuStore()
   // 현재 보이는 탭 목록
   const openedTabs = ref<Tab[]>([])
   // 탭 추가
@@ -33,12 +34,15 @@ export const useTabStore = defineStore('tabs', () => {
       if (t.order > tab.order) {
         t.order = t.order - 1
       }
-    });
-    select(openedTabs.value[0].menu)
+    })
+    if (openedTabs.value.length > 0) { 
+      select(openedTabs.value[0].menu)
+    } else {
+      select(menuStore.menus[0])
+    }
   }
   // 탭의 url로 이동
   const select = (menu:Menu) => {
-    const menuStore = useMenuStore()
     menuStore.go(menu)
   }
 

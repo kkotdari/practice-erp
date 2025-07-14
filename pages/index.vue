@@ -6,11 +6,14 @@
       class="flex-initial justify-content-center align-items-center"
     >
       <MyFlex
-        class="flex-initial flex justify-content-center align-items-center"
+        class="flex-initial flex-column justify-content-between align-items-center"
         style="width: 200px;height: 200px;background-color:lightcyan;"
       >
-        <span v-on:click="toggleSidebar">
+        <span>
           Logo
+        </span>
+        <span v-on:click="toggleSidebar">
+          {{ isSidebarVisible ? "Close Sidebar" : "Open Sidebar" }}
         </span>
       </MyFlex>
       <MyFlex
@@ -54,7 +57,7 @@
 import Sidebar from '~/pages/sidebar/index.vue'
 import Tabbar from '~/pages/tabbar/index.vue'
 
-const isSidebarVisible = ref(false)
+const isSidebarVisible = ref(true)
 const toggleSidebar = () => {
   isSidebarVisible.value = !isSidebarVisible.value
 }
