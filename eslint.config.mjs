@@ -1,6 +1,7 @@
 import withNuxt from './.nuxt/eslint.config.mjs'
 import tsParser from '@typescript-eslint/parser'
 import tsPlugin from '@typescript-eslint/eslint-plugin'
+import vueParser from 'vue-eslint-parser'
 import pluginVue from 'eslint-plugin-vue'
 
 export default withNuxt({
@@ -16,8 +17,9 @@ export default withNuxt({
   // Nuxt 기본 parserOptions는 그대로 살리되,
   // TS 파일에 한해 아래 파서를 덮어씌워 줍니다
   languageOptions: {
-    parser: tsParser,
+    parser: vueParser,
     parserOptions: {
+      parser: tsParser,
       project: './tsconfig.json',
       extraFileExtensions: ['.vue'],
       ecmaVersion: 'latest',
