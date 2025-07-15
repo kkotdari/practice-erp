@@ -9,8 +9,8 @@ export default defineNuxtConfig({
   ],
   primevue: {
     components: {
-      exclude: ['Form', 'FormField']
-    }
+      exclude: ['Form', 'FormField'],
+    },
   },
   components: {
     dirs: [
@@ -25,5 +25,5 @@ export default defineNuxtConfig({
   css: [
     'primeflex/primeflex.css',
     'primeicons/primeicons.css',
-  ]
+  ],
 })

@@ -1,5 +1,4 @@
-import { defineStore } from "pinia";
-import { useTabStore } from "#imports";
+import { useTabStore } from '~/stores/tab'
 
 export interface Menu{
   depth: number,
@@ -18,7 +17,7 @@ export const useMenuStore = defineStore('menus', () => {
       order: 1,
       id: 'dashboard',
       name: '대시보드',
-      path: '/dashbard'
+      path: '/dashbard',
     },
     {
       depth: 0,
@@ -26,7 +25,7 @@ export const useMenuStore = defineStore('menus', () => {
       order: 2,
       id: 'members',
       name: '회원관리',
-      path: '/dashbard'
+      path: '/dashbard',
     },
     {
       depth: 0,
@@ -34,7 +33,7 @@ export const useMenuStore = defineStore('menus', () => {
       order: 3,
       id: 'boards',
       name: '게시판',
-      path: '/dashbard'
+      path: '/dashbard',
     },
   ])
 
@@ -44,7 +43,7 @@ export const useMenuStore = defineStore('menus', () => {
     order: 1,
     id: 'dashboard',
     name: '대시보드',
-    path: '/dashbard'
+    path: '/dashbard',
   })
   
   const select = (menu:Menu) => {

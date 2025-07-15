@@ -1,5 +1,4 @@
-import { defineStore } from "pinia";
-import { type Menu, useMenuStore } from "~/stores/menu";
+import { type Menu, useMenuStore } from '~/stores/menu'
 
 export interface Tab{
   order: number,
