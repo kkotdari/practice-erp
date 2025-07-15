@@ -12,7 +12,7 @@
         <span>
           Logo
         </span>
-        <span v-on:click="toggleSidebar">
+        <span @click="toggleSidebar">
           {{ isSidebarVisible ? "← Close" : "→ Open" }}
         </span>
       </MyFlex>
@@ -30,7 +30,7 @@
       class="flex-initial flex justify-content-start align-items-start"
     >
       <Sidebar
-        :isVisible=isSidebarVisible
+        :is-visible=isSidebarVisible
       />
       <MyFlex
         class="flex-initial flex flex-column"
@@ -47,8 +47,8 @@
 </template>
 
 <script setup lang="ts">
-import Sidebar from '~/pages/sidebar/index.vue'
 import Tabbar from '~/pages/tabbar/index.vue'
+import Sidebar from '~/pages/sidebar/index.vue'
 
 const isSidebarVisible = ref(true)
 const toggleSidebar = () => {
