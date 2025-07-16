@@ -1,15 +1,36 @@
 <template>
-  <div class="flex-initial flex justify-content-start">
-    <button v-if="openedTabs.length > 0" v-for="t in openedTabs" class="flex-initial tab">
-      {{ t.menu.name }} <i class="pi pi-times-circle tab-close-icon" v-on:click="tabStore.remove(t)" />
+  <div v-if="openedTabs.length > 0" class="flex-initial flex justify-content-start">
+    <button v-for="t in openedTabs" :key="t.order" class="flex-initial tab" @click="requestChangeMenu(t)">
+      {{ t.menu.name }} <i class="pi pi-times-circle tab-close-icon" @click.stop="closeTab(t)"/>
     </button>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useMenuStore } from '~/stores/menu'
 import { useTabStore } from '~/stores/tab'
+const menuStore = useMenuStore()
 const tabStore = useTabStore()
+const router = useRouter()
 const openedTabs = computed(() => tabStore.openedTabs)
+
+const requestChangeMenu = (tab:Tab) => {
+  console.log('tabs > requestChangeMenu: ', tab.menu.id)
+  tabStore.select(tab)
+  menuStore.select(tab.menu)
+  router.push(tab.menu.path)
+}
+
+const closeTab = (tab:Tab) => {
+  tabStore.remove(tab)
+  let path = ''
+  if (tabStore.isRemoveAll) {
+    path = menuStore.menus[0].path
+  } else {
+    path = openedTabs.value[0].menu.path
+  }
+  router.push(path)
+}
 </script>
 
 <style lang="css" scoped>

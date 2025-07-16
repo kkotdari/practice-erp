@@ -1,6 +1,6 @@
 <template>
   <div style="width: 100%;">
-    대시보드
+    회원관리
   </div>
 </template>
 

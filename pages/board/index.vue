@@ -1,6 +1,6 @@
 <template>
   <div style="width: 100%;">
-    대시보드
+    게시판
   </div>
 </template>
 

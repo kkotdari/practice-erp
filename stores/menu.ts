@@ -1,5 +1,3 @@
-import { useTabStore } from '~/stores/tab'
-
 export interface Menu{
   depth: number,
   parentId: string,
@@ -17,7 +15,7 @@ export const useMenuStore = defineStore('menus', () => {
       order: 1,
       id: 'dashboard',
       name: '대시보드',
-      path: '/dashbard',
+      path: 'dashboard',
     },
     {
       depth: 0,
@@ -25,42 +23,24 @@ export const useMenuStore = defineStore('menus', () => {
       order: 2,
       id: 'members',
       name: '회원관리',
-      path: '/dashbard',
+      path: 'members',
     },
     {
       depth: 0,
       parentId: '',
       order: 3,
-      id: 'boards',
+      id: 'board',
       name: '게시판',
-      path: '/dashbard',
+      path: 'board',
     },
   ])
-
-  const currentMenu = ref<Menu>({
-    depth: 0,
-    parentId: '',
-    order: 1,
-    id: 'dashboard',
-    name: '대시보드',
-    path: '/dashbard',
-  })
   
   const select = (menu:Menu) => {
     console.log("selected menuId: ", menu.id)
-    const tabStore = useTabStore()
-    currentMenu.value = menu
-    tabStore.add(menu)
-  }
-
-  const go = (menu:Menu) => {
-    currentMenu.value = menu
   }
 
   return {
     menus,
-    currentMenu,
     select,
-    go,
   }
 })

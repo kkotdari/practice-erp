@@ -1,54 +1,65 @@
-import { type Menu, useMenuStore } from '~/stores/menu'
+import { type Menu } from '~/stores/menu'
 
 export interface Tab{
   order: number,
   menu: Menu,
+  isCurrent: Boolean,
 }
 
 export const useTabStore = defineStore('tabs', () => {
-  const menuStore = useMenuStore()
   // 현재 보이는 탭 목록
   const openedTabs = ref<Tab[]>([])
+  const isRemoveAll = ref<Boolean>(false);
   // 탭 추가
-  const add = (menu:Menu) => {
-    console.log('add tab: ', menu.id)
-    const isTabExists = openedTabs.value.filter((t) => t.menu.id === menu.id).length > 0
-    console.log('isTabExists: ', isTabExists)
+  const add = (tab:Tab) => {
+    console.log('tabStore > add: ', tab.menu.id)
+    console.log('tabStore > add > opened tabs length(before): ', openedTabs.value.length)
+    const isTabExists = openedTabs.value.filter((t) => t.menu.id === tab.menu.id).length > 0
+    console.log('tabStore > isTabExists: ', isTabExists)
     if (isTabExists) {
-      console
       return
     }
 
-    const newTab = {
-      order: openedTabs.value.length,
-      menu: menu,
-    }
-    openedTabs.value.push(newTab)
-    select(newTab.menu)
+    tab.order = openedTabs.value.length
+    openedTabs.value.push(tab)
+    console.log('tabStore > add > opened tabs length(after): ', openedTabs.value.length)
   }
   // 탭 제거
   const remove = (tab:Tab) => {
+    console.log('tabStore > remove: ', tab.menu.id)
+    console.log('tabStore > remove > opened tabs length(before): ', openedTabs.value.length)
     openedTabs.value = openedTabs.value.filter((t) => t.menu.id !== tab.menu.id)
+    console.log('tabStore > remove > opened tabs length(after): ', openedTabs.value.length)
     openedTabs.value.forEach((t) => {
       if (t.order > tab.order) {
         t.order = t.order - 1
       }
     })
-    if (openedTabs.value.length > 0) { 
-      select(openedTabs.value[0].menu)
-    } else {
-      select(menuStore.menus[0])
-    }
+    // 전체 페이지가 종료됐을 떄 그것을 알리기 위해 선언함.
+    isRemoveAll.value = openedTabs.value.length === 0
+    console.log('tabStore > isRemoveAll: ', tab.menu.id)
   }
-  // 탭의 url로 이동
-  const select = (menu:Menu) => {
-    menuStore.go(menu)
+  // 탭의 isCurrent 속성을 true로 바꿔줌
+  const select = (tab:Tab) => {
+    openedTabs.value.forEach((t) => {
+      if (t.menu.id === tab.menu.id) {
+        t.isCurrent = true
+      } else {
+        t.isCurrent = false
+      }
+    })
+  }
+
+  const resetRemoveAll = () => {
+    isRemoveAll.value = false;
   }
 
   return {
     openedTabs,
+    isRemoveAll,
     add,
     remove,
     select,
+    resetRemoveAll,
   }
 })
