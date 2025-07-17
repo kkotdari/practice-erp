@@ -23,10 +23,9 @@ const requestChangeMenu = (tab:Tab) => {
 
 const closeTab = (tab:Tab) => {
   tabStore.remove(tab)
-  let path = ''
-  if (tabStore.isRemoveAll) {
-    path = menuStore.menus[0].path
-  } else {
+  let path = '/'
+  console.log('tabbar > isRemoveAll: ', tabStore.isRemoveAll)
+  if (!tabStore.isRemoveAll) {
     path = openedTabs.value[0].menu.path
   }
   router.push(path)

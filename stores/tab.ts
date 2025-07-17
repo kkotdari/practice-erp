@@ -37,7 +37,7 @@ export const useTabStore = defineStore('tabs', () => {
     })
     // 전체 페이지가 종료됐을 떄 그것을 알리기 위해 선언함.
     isRemoveAll.value = openedTabs.value.length === 0
-    console.log('tabStore > isRemoveAll: ', tab.menu.id)
+    console.log('tabStore > isRemoveAll: ', isRemoveAll.value)
   }
   // 탭의 isCurrent 속성을 true로 바꿔줌
   const select = (tab:Tab) => {
