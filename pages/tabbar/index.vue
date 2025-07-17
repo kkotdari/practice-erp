@@ -34,6 +34,9 @@ const closeTab = (tab:Tab) => {
 
 <style lang="css" scoped>
 .tab {
+  padding: 6px;
+  text-align: center;
+  vertical-align: bottom;
   background: white;
   border-radius: 2px;
   border: 1px;
