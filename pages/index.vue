@@ -1,6 +1,6 @@
 <template>
-  <div style="width: 100%;">
-    인덱스
+  <div style="width: 100%;text-align: center;">
+    홈
   </div>
 </template>
 
