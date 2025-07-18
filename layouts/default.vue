@@ -1,59 +1,60 @@
 <template>
   <MyFlex
     class="flex-column align-items-start"
+    style="width: 100%;"
   >
     <MyFlex
-      class="flex-initial justify-content-center align-items-center"
+      class="justify-content-start align-items-center"
       style="width: 100%;"
     >
       <MyFlex
-        class="flex-initial flex-column justify-content-center align-items-center"
-        style="width: 200px;height: 80px;background-color:lightcyan;"
+        class="flex-column justify-content-center align-items-center"
+        style="width: 160px;height: 80px;"
       >
-        <span>
+        <span
+          style="width: 100%;padding: 12px;font-size: 20px;font-style: oblique;font-weight: 900;"
+          @click="$router.push('/')"
+        >
           Lotte Chilsung
         </span>
       </MyFlex>
       <MyFlex
-        class="flex-initial flex flex-column justify-content-between align-items-start"
-        style="width: 100%;height: 80px;background-color: aquamarine;"
+        class="flex-column justify-content-between align-items-start"
+        style="flex: 1;height: 80px;background-color: aquamarine;"
       >
         <div
-          class="flex-initial flex justify-content-end align-items-end"
+          class="flex justify-content-end align-items-end"
           style="width: 100%;"
         >
-          <div style="padding: 4px;font-size: 12px;">
-            로그인 | 회원가입
+          <div style="padding: 12px 20px 0 0;">
+            <span style="font-size: 12px;font-weight: 700;">
+              로그인 | 회원가입
+            </span>
           </div>
         </div>
         <div
-          class="flex-initial flex justify-content-start align-items-end"
+          class="flex justify-content-start align-items-end"
           style="width: 100%;padding-left: 20px;"
         >
           <Tabbar />
         </div>
       </MyFlex>
     </MyFlex>
-    <MyFlex
-      class="flex-initial flex justify-content-start align-items-start"
-      style="width: 100%;"
+    <div
+      style="display: flex;width: 100%;"
     >
       <Sidebar/>
       <MyFlex
-        class="flex-initial flex flex-column"
-        style="width: 100%;height: 1600px;background-color: lavender; gap: 8px;"
+        class="flex-1 flex-column"
+        style="padding: 20px;"
       >
-        <MyFlex
-          class="justify-content-start"
-          style="gap: 8px;"
-        />
         <div class="layout-main-slot">
           <router-view v-slot="{ Component }">
             <component :is="Component" />
           </router-view>
         </div>
       </MyFlex>
-    </MyFlex>
+    </div>
   </MyFlex>
 </template>
 

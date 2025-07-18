@@ -21,6 +21,14 @@ export const useMenuStore = defineStore('menus', () => {
       depth: 0,
       parentId: '',
       order: 2,
+      id: 'chart',
+      name: '차트',
+      path: 'chart',
+    },
+    {
+      depth: 0,
+      parentId: '',
+      order: 3,
       id: 'members',
       name: '회원관리',
       path: 'members',
@@ -28,7 +36,7 @@ export const useMenuStore = defineStore('menus', () => {
     {
       depth: 0,
       parentId: '',
-      order: 3,
+      order: 4,
       id: 'board',
       name: '게시판',
       path: 'board',

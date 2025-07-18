@@ -1,20 +1,33 @@
 <template>
   <div
-    class="sidebar-wrapper"
-    :style="{
-      width: isVisible ? '200px' : '0'
-    }"
+    :class="[
+      'sidebar-wrapper',
+      isVisible ? '' : 'collapsed',
+    ]"
   >
-    <i class="sidebar-control-button" :class="isVisible ? 'pi pi-angle-double-left' : 'pi pi-angle-double-right'" @click="changeVisibility"/>
-    <MyFlex
-      v-if="isVisible"
-      class="flex-initial flex flex-column justify-content-start gap-2"
-      style="width: 100%; padding: 2px;"
+    <i
+      :class="[
+        'sidebar-control-button',
+        isVisible ? 'pi pi-angle-double-left' : 'pi pi-angle-double-right'
+      ]"
+      @click="changeVisibility"
+    />
+    <div
+      v-show="isVisible"
+      :class="[
+        'sidebar-menus'
+      ]"
     >
-      <button v-for="m in menus" :key="m.id" style="text-align: center;vertical-align: middle;" @click="requestChangeMenu(m)">
+      <div
+        v-for="m in menus"
+        v-show="isVisible"
+        :key="m.id"
+        class="sidebar-menu"
+        @click="requestChangeMenu(m)"
+      >
         {{ m.name }}
-      </button>
-    </MyFlex>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -42,6 +55,7 @@ const requestChangeMenu = (menu:Menu) => {
     isCurrent: true,
   }
   tabStore.add(tab)
+  tabStore.select(tab)
   router.push(menu.path)
 }
 </script>
@@ -49,11 +63,14 @@ const requestChangeMenu = (menu:Menu) => {
 <style scoped>
 .sidebar-wrapper {
   position: relative;
-  overflow: visible;
-  width: auto;
+  width: 160px;
   height: 100%;
+  background-color:lightcyan;
+  overflow: visible;
   transition: width 0.5s cubic-bezier(.075,.82,.165,1);
-  background-color: transparent;
+}
+.collapsed {
+  width: 0;
 }
 .sidebar-control-button {
   position: absolute;
@@ -65,5 +82,20 @@ const requestChangeMenu = (menu:Menu) => {
   background-color: transparent;
   cursor: pointer;
   font-size: 14px;
+}
+.sidebar-menus {
+  width: 100%;
+  height: 100%;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  gap: 8px;
+}
+.sidebar-menu {
+  font-size: 14px;
+  font-weight: 600;
+  text-align: left;
+  vertical-align: middle;
 }
 </style>

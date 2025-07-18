@@ -1,7 +1,20 @@
 <template>
-  <div v-if="openedTabs.length > 0" class="flex-initial flex justify-content-start">
-    <button v-for="t in openedTabs" :key="t.order" class="flex-initial tab" @click="requestChangeMenu(t)">
-      {{ t.menu.name }} <i class="pi pi-times-circle tab-close-icon" @click.stop="closeTab(t)"/>
+  <div
+    v-if="openedTabs.length > 0"
+    class="flex justify-content-start"
+  >
+    <button
+      v-for="t in openedTabs" :key="t.order"
+      class="tab flex justify-content-between align-items-center"
+      @click="requestChangeMenu(t)"
+    >
+      <div
+        class="tab-container"
+        :class="t.isCurrent ? 'isCurrent': ''"
+      >
+        {{ t.menu.name }}
+        <i class="pi pi-times-circle tab-close-icon" @click.stop="closeTab(t)"/>
+      </div>
     </button>
   </div>
 </template>
@@ -34,18 +47,47 @@ const closeTab = (tab:Tab) => {
 
 <style lang="css" scoped>
 .tab {
-  padding: 6px;
+  width: fit-content;
+  padding: 0;
+  overflow: hidden;
+  gap: 4px;
   text-align: center;
   vertical-align: bottom;
   background: white;
-  border-radius: 2px;
-  border: 1px;
-  border-style: solid;
-  border-color: black;
+  border-radius: 2px 2px 0px 0px;
+  border: none;
 }
 .tab:hover {
-  color: white;
-  background: black;
+  color: darkblue;
+}
+.tab-container {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 6px 10px 8px 10px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.tab-container::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%; height: 40px;
+  background: radial-gradient(
+    ellipse 40px 10px at center 36px,
+    rgba(0,255,0,0.8) 10%,
+    rgba(0,255,0,0.3) 20%,
+    rgba(0,255,0,0.1) 50%,
+    rgba(0,255,0,0) 100%
+  ) no-repeat;
+  background-size: 100% 100%;
+  opacity: 0;
+  transition: opacity 1s cubic-bezier(.075,.82,.165,1);
+  pointer-events: none;
+}
+.tab-container.isCurrent::after {
+  opacity: 1;
 }
 .tab-close-icon:hover {
   transition: all 1s;
