@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="openedTabs.length > 0"
-    class="flex justify-content-start"
+    class="flex justify-content-start align-items-end"
   >
     <button
       v-for="t in openedTabs" :key="t.order"
@@ -48,6 +48,7 @@ const closeTab = (tab:Tab) => {
 <style lang="css" scoped>
 .tab {
   width: fit-content;
+  height: fit-content;
   padding: 0;
   overflow: hidden;
   gap: 4px;
@@ -56,6 +57,7 @@ const closeTab = (tab:Tab) => {
   background: white;
   border-radius: 2px 2px 0px 0px;
   border: none;
+  cursor: pointer;
 }
 .tab:hover {
   color: darkblue;

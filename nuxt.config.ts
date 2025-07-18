@@ -23,6 +23,7 @@ export default defineNuxtConfig({
     ],
   },
   css: [
+    'assets/css/static.css',
     'primeflex/primeflex.css',
     'primeicons/primeicons.css',
   ],

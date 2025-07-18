@@ -1,32 +1,34 @@
 <template>
-  <MyFlex
-    class="flex-column align-items-start"
-    style="width: 100%;"
+  <div
+    class="flex flex-column"
   >
-    <MyFlex
-      class="justify-content-start align-items-center"
-      style="width: 100%;"
+    <div
+      class="flex justify-content-start"
+      style="height: 80px;position: relative;"
     >
-      <MyFlex
-        class="flex-column justify-content-center align-items-center"
-        style="width: 160px;height: 80px;"
+      <div
+        class="logo-box flex justify-content-center align-items-center"
+        :class="[ isSidebarVisible ? '' : 'logo-box-collapsed']"
       >
         <span
-          style="width: 100%;padding: 12px;font-size: 20px;font-style: oblique;font-weight: 900;"
+          class="logo"
+          :class="[ isSidebarVisible ? '' : 'logo-shrinked']"
+          style="width: 100%;text-align: left;"
           @click="$router.push('/')"
         >
           Lotte Chilsung
         </span>
-      </MyFlex>
-      <MyFlex
-        class="flex-column justify-content-between align-items-start"
-        style="flex: 1;height: 80px;background-color: aquamarine;"
+      </div>
+      <div
+        class="flex-1 flex flex-column justify-content-between align-items-start"
+        style="background-color: aquamarine;"
       >
         <div
-          class="flex justify-content-end align-items-end"
-          style="width: 100%;"
+          class="flex"
         >
-          <div style="padding: 12px 20px 0 0;">
+          <div
+            class="flex justify-content-end align-items-end"
+            style="padding: 12px 20px 0 0;">
             <span style="font-size: 12px;font-weight: 700;">
               로그인 | 회원가입
             </span>
@@ -34,31 +36,66 @@
         </div>
         <div
           class="flex justify-content-start align-items-end"
-          style="width: 100%;padding-left: 20px;"
+          style="padding-left: 20px;"
         >
           <Tabbar />
         </div>
-      </MyFlex>
-    </MyFlex>
+      </div>
+    </div>
     <div
-      style="display: flex;width: 100%;"
+      class="flex justify-content-start"
     >
-      <Sidebar/>
-      <MyFlex
-        class="flex-1 flex-column"
+      <Sidebar
+        @update="updateSidebarVisibility"
+      />
+      <div
+        class="flex-1 flex flex-column"
         style="padding: 20px;"
       >
-        <div class="layout-main-slot">
+        <div
+          class="layout-main-slot"
+        >
           <router-view v-slot="{ Component }">
             <component :is="Component" />
           </router-view>
         </div>
-      </MyFlex>
+      </div>
     </div>
-  </MyFlex>
+  </div>
 </template>
 
 <script setup lang="ts">
 import Tabbar from '~/pages/tabbar/index.vue'
 import Sidebar from '~/pages/sidebar/index.vue'
+
+const isSidebarVisible = ref<boolean>(true)
+const updateSidebarVisibility = (visible:boolean) => {
+  isSidebarVisible.value = visible
+  console.log('isSidebarVisible updated to: ', isSidebarVisible.value)
+}
 </script>
+
+<style lang="css" scoped>
+.logo-box {
+  width: 160px;
+  transition: width 1s;
+}
+.logo-box-collapsed {
+  width: 0;
+}
+.logo {
+  top: 24px;
+  left: 12px;
+  font-size: 20px;
+  font-style: oblique;
+  font-weight: 900;
+  cursor: pointer;
+  position: absolute;
+  transition: top 1s, left 1s, font-size 1s;
+}
+.logo-shrinked {
+  top: 12px;
+  left: 24px;
+  font-size: 10px;
+}
+</style>

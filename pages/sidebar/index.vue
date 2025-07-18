@@ -1,28 +1,22 @@
 <template>
   <div
-    :class="[
-      'sidebar-wrapper',
-      isVisible ? '' : 'collapsed',
-    ]"
+    class="sidebar-wrapper flex flex-column"
+    :class="[isVisible ? '' : 'sidebar-wrapper-collapsed']"
   >
     <i
-      :class="[
-        'sidebar-control-button',
-        isVisible ? 'pi pi-angle-double-left' : 'pi pi-angle-double-right'
-      ]"
+      class="sidebar-control-button"
+      :class="[isVisible ? 'pi pi-angle-double-left' : 'pi pi-angle-double-right']"
       @click="changeVisibility"
     />
     <div
-      v-show="isVisible"
-      :class="[
-        'sidebar-menus'
-      ]"
+      class="sidebar-menus flex flex-column justify-content-start align-items-start gap-2"
+      :class="[isVisible ? '' : 'sidebar-menus-collapsed']"
     >
       <div
         v-for="m in menus"
-        v-show="isVisible"
         :key="m.id"
         class="sidebar-menu"
+        :class="[isVisible ? '' : 'sidebar-menu-collapsed']"
         @click="requestChangeMenu(m)"
       >
         {{ m.name }}
@@ -35,6 +29,8 @@
 import { type Menu, useMenuStore } from '~/stores/menu'
 import { type Tab, useTabStore } from '~/stores/tab'
 
+const emit = defineEmits(['update'])
+
 const router = useRouter()
 
 const menuStore = useMenuStore()
@@ -44,6 +40,7 @@ const isVisible = ref(true)
 
 const changeVisibility = () => {
   isVisible.value = !isVisible.value
+  emit('update', isVisible.value)
 }
 
 const requestChangeMenu = (menu:Menu) => {
@@ -65,11 +62,12 @@ const requestChangeMenu = (menu:Menu) => {
   position: relative;
   width: 160px;
   height: 100%;
+  padding: 0;
   background-color:lightcyan;
   overflow: visible;
-  transition: width 0.5s cubic-bezier(.075,.82,.165,1);
+  transition: width 1s;
 }
-.collapsed {
+.sidebar-wrapper-collapsed {
   width: 0;
 }
 .sidebar-control-button {
@@ -87,15 +85,23 @@ const requestChangeMenu = (menu:Menu) => {
   width: 100%;
   height: 100%;
   padding: 12px;
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  gap: 8px;
+  overflow: hidden;
+  transition: width 1s, padding 1s;
+}
+.sidebar-menus-collapsed {
+  width: 0;
+  padding: 0;
 }
 .sidebar-menu {
+  width: 100%;
+  height: fit-content;
+  white-space: nowrap;
+  min-width: 0;
+  overflow: hidden;
   font-size: 14px;
   font-weight: 600;
-  text-align: left;
+  text-align: right;
   vertical-align: middle;
+  cursor: pointer;
 }
 </style>
