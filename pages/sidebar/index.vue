@@ -90,7 +90,6 @@ const requestChangeMenu = (menu:Menu) => {
 }
 .sidebar-menus-collapsed {
   width: 0;
-  padding: 0;
 }
 .sidebar-menu {
   width: 100%;

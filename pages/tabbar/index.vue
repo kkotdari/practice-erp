@@ -75,11 +75,11 @@ const closeTab = (tab:Tab) => {
   content: '';
   position: absolute;
   bottom: 0; left: 0;
-  width: 100%; height: 40px;
+  width: 100%; height: 36px;
   background: radial-gradient(
     ellipse 40px 10px at center 36px,
-    rgba(0,255,0,0.8) 10%,
-    rgba(0,255,0,0.3) 20%,
+    rgba(0,255,0,0.8) 0%,
+    rgba(0,255,0,0.3) 10%,
     rgba(0,255,0,0.1) 50%,
     rgba(0,255,0,0) 100%
   ) no-repeat;
