@@ -61,8 +61,10 @@ export const useMenuStore = defineStore('menus', () => {
     },
   ])
   
-  const select = (menu:Menu) => {
-    console.log("selected menuId: ", menu.id)
+  const select = (menu: Menu | null) => {
+    if (menu !== null) {
+      console.log("selected menuId: ", menu.id)
+    }
   }
 
   return {

@@ -11,11 +11,8 @@ export const useTabStore = defineStore('tabs', () => {
   const openedTabs = ref<Tab[]>([])
   const isRemoveAll = ref<Boolean>(false);
   // 탭 추가
-  const add = (tab:Tab) => {
-    console.log('tabStore > add: ', tab.menu.id)
-    console.log('tabStore > add > opened tabs length(before): ', openedTabs.value.length)
-    const isTabExists = openedTabs.value.filter((t) => t.menu.id === tab.menu.id).length > 0
-    console.log('tabStore > isTabExists: ', isTabExists)
+  const add = (tab: Tab) => {
+    const isTabExists = openedTabs.value.filter(t => t.menu.id === tab.menu.id).length > 0
     if (isTabExists) {
       return
     }
@@ -25,7 +22,7 @@ export const useTabStore = defineStore('tabs', () => {
     console.log('tabStore > add > opened tabs length(after): ', openedTabs.value.length)
   }
   // 탭 제거
-  const remove = (tab:Tab) => {
+  const remove = (tab: Tab) => {
     console.log('tabStore > remove: ', tab.menu.id)
     console.log('tabStore > remove > opened tabs length(before): ', openedTabs.value.length)
     openedTabs.value = openedTabs.value.filter((t) => t.menu.id !== tab.menu.id)
@@ -40,7 +37,13 @@ export const useTabStore = defineStore('tabs', () => {
     console.log('tabStore > isRemoveAll: ', isRemoveAll.value)
   }
   // 탭의 isCurrent 속성을 true로 바꿔줌
-  const select = (tab:Tab) => {
+  const select = (tab: Tab | null) => {
+    if (tab === null) {
+      openedTabs.value.forEach(t => {
+        t.isCurrent = false
+      })
+      return
+    }
     openedTabs.value.forEach((t) => {
       if (t.menu.id === tab.menu.id) {
         t.isCurrent = true

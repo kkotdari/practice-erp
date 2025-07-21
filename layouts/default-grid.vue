@@ -7,11 +7,18 @@
       class="logo"
     >
       <span
-        class="logo-text"
-        :class="[ isSidebarCollapsed ? 'logo-text-shrinked' : '']"
-        @click="$router.push('/')"
+        class="logo-text-lg"
+        :class="[ isSidebarCollapsed ? 'logo-text-lg-shrinked' : '']"
+        @click="gohome()"
       >
         Lotte Chilsung
+      </span>
+      <span
+        class="logo-text-sm"
+        :class="[ isSidebarCollapsed ? 'logo-text-sm-shrinked' : '']"
+        @click="gohome()"
+      >
+        홈으로 가기
       </span>
     </div>
     <div class="header">
@@ -46,8 +53,18 @@
 <script setup lang="ts">
 import Tabbar from '~/pages/tabbar/index.vue'
 import Sidebar from '~/pages/sidebar/index.vue'
+import { useMenuStore } from '~/stores/menu'
+import { useTabStore } from '~/stores/tab'
+const menuStore = useMenuStore()
+const tabStore = useTabStore()
+const router = useRouter()
 
 const isSidebarCollapsed = ref<boolean>(false)
+const gohome = () => {
+  menuStore.select(null)
+  tabStore.select(null)
+  router.push('/')
+}
 </script>
 
 <style lang="css" scoped>
@@ -70,7 +87,7 @@ const isSidebarCollapsed = ref<boolean>(false)
   min-width: 0;
   position: relative;
 }
-.logo-text {
+.logo-text-lg {
   position: absolute;
   top: 24px;
   left: 12px;
@@ -82,8 +99,25 @@ const isSidebarCollapsed = ref<boolean>(false)
   cursor: pointer;
   transition: top 0.5s, font-size 0.5s, color 0.5s;
 }
-.logo-text-shrinked {
+.logo-text-sm {
+  position: absolute;
+  top: 48px;
+  left: 48px;
+  font-size: 12px;
+  font-weight: 700;
+  color:seagreen;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: top 0.5s, font-size 0.5s, color 0.5s;
+}
+.logo-text-lg-shrinked {
   top: 12px;
+  font-size: 10px;
+  color: whitesmoke;
+}
+.logo-text-sm-shrinked {
+  top: 12px;
+  left: 84px;
   font-size: 10px;
   color: whitesmoke;
 }
