@@ -1,14 +1,14 @@
 <template>
   <div
     class="layout-container"
-    :class="[ isSidebarCollapsed ? '' : 'sidebar-collapsed']"
+    :class="[ isSidebarCollapsed ? 'sidebar-collapsed' : '']"
   >
     <div
       class="logo"
     >
       <span
         class="logo-text"
-        :class="[ isSidebarCollapsed ? '' : 'logo-text-shrinked']"
+        :class="[ isSidebarCollapsed ? 'logo-text-shrinked' : '']"
         @click="$router.push('/')"
       >
         Lotte Chilsung
@@ -25,13 +25,13 @@
     </div>
     <div
       class="sidebar"
+      :class="[ isSidebarCollapsed ? 'sidebar-collapsed' : '']"
     >
       <Sidebar
-        @update="updateSidebarVisibility"
       />
       <i
         class="sidebar-control-button"
-        :class="[isSidebarCollapsed ? 'pi pi-angle-double-left' : 'pi pi-angle-double-right']"
+        :class="[isSidebarCollapsed ? 'pi pi-angle-double-right' : 'pi pi-angle-double-left']"
         @click="isSidebarCollapsed = !isSidebarCollapsed"
       />
     </div>
@@ -47,11 +47,7 @@
 import Tabbar from '~/pages/tabbar/index.vue'
 import Sidebar from '~/pages/sidebar/index.vue'
 
-const isSidebarCollapsed = ref<boolean>(true)
-const updateSidebarVisibility = (visible:boolean) => {
-  isSidebarCollapsed.value = visible
-  console.log('isSidebarCollapsed updated to: ', isSidebarCollapsed.value)
-}
+const isSidebarCollapsed = ref<boolean>(false)
 </script>
 
 <style lang="css" scoped>
@@ -65,7 +61,7 @@ const updateSidebarVisibility = (visible:boolean) => {
   grid-template-rows: 40px 40px 1fr;
   transition: grid-template-columns 0.5s;
 }
-.sidebar-collapsed {
+.layout-container.sidebar-collapsed {
   grid-template-columns: 0 1fr;
 }
 .logo {
@@ -89,7 +85,7 @@ const updateSidebarVisibility = (visible:boolean) => {
 .logo-text-shrinked {
   top: 12px;
   font-size: 10px;
-  color: black;
+  color: whitesmoke;
 }
 .header {
   grid-area: header;
@@ -97,7 +93,7 @@ const updateSidebarVisibility = (visible:boolean) => {
   justify-content: end;
   align-items: center;
   padding: 12px;
-  background-color: aquamarine;
+  background-color: darkgreen;
 }
 .header-text {
   font-size: 12px;
@@ -107,15 +103,24 @@ const updateSidebarVisibility = (visible:boolean) => {
   display: flex;
   justify-content: start;
   align-items: end;
-  background-color: aquamarine;
+  background-color: darkgreen;
 }
 .sidebar {
   grid-area: sidebar;
+  width: 100%;
+  height: 100%;
+  padding: 12px 0 12px 0;
   display: flex;
   justify-content: start;
   align-items: start;
   position: relative;
   background-color: mediumseagreen;
+  min-width: 0;
+  transition: padding-left 0.5s, padding-right 0.5s;
+}
+.sidebar.sidebar-collapsed {
+  padding-left: 0;
+  padding-right: 0;
 }
 .sidebar-control-button {
   position: absolute;
@@ -130,6 +135,5 @@ const updateSidebarVisibility = (visible:boolean) => {
 .content-container {
   grid-area: content;
   padding: 24px;
-  background-color: aliceblue;
 }
 </style>

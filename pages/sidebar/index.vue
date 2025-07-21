@@ -3,9 +3,9 @@
     <div
       class="toggle-collapse"
     >
-      <span class="toggle-collapse-text" @click="toggleAllCategories(false)">접기</span>
-      <span>&nbsp;/&nbsp;</span>
       <span class="toggle-collapse-text" @click="toggleAllCategories(true)">펼치기</span>
+      <span>&nbsp;/&nbsp;</span>
+      <span class="toggle-collapse-text" @click="toggleAllCategories(false)">접기</span>
     </div>
     <div
       class="sidebar-menus"
@@ -13,13 +13,23 @@
       <div
         v-for="m in menus"
         :key="m.id"
-        :class="[
-          m.depth === 0 ? 'category' : 'subcategory',
-          isCategoryCollapsed(m.parentId) ? 'collapsed' : ''
-        ]"
-        @click="m.depth === 0 && m.path === '' ? toggleCategoryCollapse(m.id) : requestChangeMenu(m)"
+        class="category-family"
       >
-        {{ m.name }}
+        <div
+          class="category"
+          @click="m.subs.length === 0 && m.path !== '' ? requestChangeMenu(m) : toggleCategoryCollapse(m.id)"
+        >
+          {{ m.name }}
+        </div>
+        <div
+          v-for="s in m.subs"
+          :key="s.id"
+          class="subcategory"
+          :class="isCategoryCollapsed(s.parentId) ? 'collapsed' : ''"
+          @click="s.path !== '' ? requestChangeMenu(s) : ''"
+        >
+          {{ s.name }}
+        </div>
       </div>
     </div>
   </div>
@@ -77,8 +87,10 @@ const requestChangeMenu = (menu:Menu) => {
   display: flex;
   flex-direction: column;
   justify-content: start;
-  padding: 12px;
+  width: 100%;
   min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
   transition: width 1s, padding 1s;
 }
 .toggle-collapse {
@@ -88,12 +100,10 @@ const requestChangeMenu = (menu:Menu) => {
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
-  white-space: nowrap;
   text-align: center;
   color: white;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 12px;
+  font-weight: 600;
 }
 .toggle-collapse-text:hover {
   color: darkblue;
@@ -107,17 +117,18 @@ const requestChangeMenu = (menu:Menu) => {
   justify-content: start;
   align-items: start;
 }
+.category-family {
+  width: 100%;
+  height: auto;
+}
 .category {
   width: 100%;
   height: fit-content;
-  white-space: nowrap;
-  min-width: 0;
-  margin-top: 4px;
-  margin-bottom: 8px;
-  overflow: hidden;
+  padding: 8px 8px 8px 8px;
   font-size: 14px;
   font-weight: 600;
-  color: whitesmoke;
+  background-color: white;
+  color: darkgreen;
   text-align: left;
   vertical-align: middle;
 }
@@ -127,26 +138,26 @@ const requestChangeMenu = (menu:Menu) => {
 }
 .subcategory {
   width: 100%;
-  height: 20px;
-  white-space: nowrap;
-  min-width: 0;
-  padding-left: 12px;
-  padding-bottom: 8px;
+  height: 28px;
+  min-height: 0;
   overflow: hidden;
+  padding: 8px 8px 8px 12px;
   font-size: 12px;
-  font-weight: 400;
+  font-weight: 500;
+  background-color: mediumseagreen;
   color: whitesmoke;
   text-align: left;
   vertical-align: middle;
-  transition: height 0.5s, padding-bottom 0.5s;
+  transition: height 0.5s, padding-top 0.5s, padding-bottom 0.5s;
 }
 .subcategory:hover {
   color: darkblue;
   cursor: pointer;
 }
-.collapsed {
+.subcategory.collapsed {
   height: 0;
+  padding-top: 0;
   padding-bottom: 0;
-  transition: height 0.5s, padding-bottom 0.5s;
+  transition: height 0.5s, padding-top 0.5s, padding-bottom 0.5s;
 }
 </style>

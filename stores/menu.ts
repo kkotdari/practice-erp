@@ -1,61 +1,63 @@
 export interface Menu{
-  depth: number,
   parentId: string,
   order: number,
   id: string,
   name: string,
   path: string,
+  subs: Menu[],
 }
 
 export const useMenuStore = defineStore('menus', () => {
   const menus = ref<Menu[]>([
     {
-      depth: 0,
       parentId: '',
       order: 1,
       id: 'data',
       name: '데이터',
       path: '',
+      subs: [
+        {
+          parentId: 'data',
+          order: 1,
+          id: 'dashboard',
+          name: '대시보드',
+          path: 'dashboard',
+          subs: [],
+        },
+        {
+          parentId: 'data',
+          order: 2,
+          id: 'chart',
+          name: '차트',
+          path: 'chart',
+          subs: [],
+        },
+      ],
     },
     {
-      depth: 1,
-      parentId: 'data',
-      order: 1,
-      id: 'dashboard',
-      name: '대시보드',
-      path: 'dashboard',
-    },
-    {
-      depth: 1,
-      parentId: 'data',
-      order: 2,
-      id: 'chart',
-      name: '차트',
-      path: 'chart',
-    },
-    {
-      depth: 0,
       parentId: '',
       order: 2,
       id: 'community',
       name: '커뮤니티',
       path: '',
-    },
-    {
-      depth: 1,
-      parentId: 'community',
-      order: 1,
-      id: 'members',
-      name: '회원관리',
-      path: 'members',
-    },
-    {
-      depth: 1,
-      parentId: 'community',
-      order: 2,
-      id: 'board',
-      name: '게시판',
-      path: 'board',
+      subs: [
+        {
+          parentId: 'community',
+          order: 1,
+          id: 'members',
+          name: '회원관리',
+          path: 'members',
+          subs: [],
+        },
+        {
+          parentId: 'community',
+          order: 2,
+          id: 'board',
+          name: '게시판',
+          path: 'board',
+          subs: [],
+        },
+      ],
     },
   ])
   
