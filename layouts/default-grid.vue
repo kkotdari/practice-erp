@@ -92,11 +92,13 @@ const isSidebarCollapsed = ref<boolean>(false)
   display: flex;
   justify-content: end;
   align-items: center;
-  padding: 12px;
+  padding: 24px;
   background-color: darkgreen;
 }
 .header-text {
   font-size: 12px;
+  font-weight: 600;
+  color: whitesmoke;
 }
 .tabbar {
   grid-area: tabbar;
