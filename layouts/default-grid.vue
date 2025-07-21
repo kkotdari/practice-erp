@@ -63,7 +63,7 @@ const updateSidebarVisibility = (visible:boolean) => {
     "sidebar content";
   grid-template-columns: 160px 1fr;
   grid-template-rows: 40px 40px 1fr;
-  transition: grid-template-columns 1s;
+  transition: grid-template-columns 0.5s;
 }
 .sidebar-collapsed {
   grid-template-columns: 0 1fr;
@@ -81,13 +81,15 @@ const updateSidebarVisibility = (visible:boolean) => {
   font-size: 20px;
   font-style: oblique;
   font-weight: 900;
+  color:seagreen;
   white-space: nowrap;
   cursor: pointer;
-  transition: top 1s, left 1s, font-size 1s;
+  transition: top 0.5s, font-size 0.5s, color 0.5s;
 }
 .logo-text-shrinked {
   top: 12px;
   font-size: 10px;
+  color: black;
 }
 .header {
   grid-area: header;
@@ -113,7 +115,7 @@ const updateSidebarVisibility = (visible:boolean) => {
   justify-content: start;
   align-items: start;
   position: relative;
-  background-color: lime;
+  background-color: mediumseagreen;
 }
 .sidebar-control-button {
   position: absolute;
@@ -122,12 +124,12 @@ const updateSidebarVisibility = (visible:boolean) => {
   margin-top: 4px;
   margin-left: 4px;
   background: none;
-  background-color: transparent;
   cursor: pointer;
   font-size: 14px;
 }
 .content-container {
   grid-area: content;
   padding: 24px;
+  background-color: aliceblue;
 }
 </style>

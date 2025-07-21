@@ -156,6 +156,7 @@
   flex-direction: column;
   justify-content: start;
   align-items: center;
+  gap: 16px;
 }
 .title {
   width: 100%;
@@ -163,6 +164,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  height: fit-content;
 
 }
 table, tr, th, td {
