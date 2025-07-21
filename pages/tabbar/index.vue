@@ -1,11 +1,11 @@
 <template>
   <div
     v-if="openedTabs.length > 0"
-    class="flex justify-content-start align-items-end"
+    class="tabs"
   >
     <button
       v-for="t in openedTabs" :key="t.order"
-      class="tab flex justify-content-between align-items-center"
+      class="tab"
       @click="requestChangeMenu(t)"
     >
       <div
@@ -13,7 +13,10 @@
         :class="t.isCurrent ? 'isCurrent': ''"
       >
         {{ t.menu.name }}
-        <i class="pi pi-times-circle tab-close-icon" @click.stop="closeTab(t)"/>
+        <i
+          class="tab-close-icon pi pi-times-circle"
+          @click.stop="closeTab(t)"
+        />
       </div>
     </button>
   </div>
@@ -46,6 +49,12 @@ const closeTab = (tab:Tab) => {
 </script>
 
 <style lang="css" scoped>
+.tabs {
+  padding-left: 12px;
+  display: flex;
+  justify-content: start;
+  align-items: end;
+}
 .tab {
   width: fit-content;
   height: fit-content;

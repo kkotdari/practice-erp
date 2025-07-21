@@ -1,5 +1,3 @@
 <template>
-  <div>
-    <NuxtLayout/>
-  </div>
+  <NuxtLayout name="default-grid" />
 </template>

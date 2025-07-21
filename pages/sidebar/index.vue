@@ -1,26 +1,14 @@
 <template>
   <div
-    class="sidebar-wrapper flex flex-column"
-    :class="[isVisible ? '' : 'sidebar-wrapper-collapsed']"
+    class="sidebar-menus"
   >
-    <i
-      class="sidebar-control-button"
-      :class="[isVisible ? 'pi pi-angle-double-left' : 'pi pi-angle-double-right']"
-      @click="changeVisibility"
-    />
     <div
-      class="sidebar-menus flex flex-column justify-content-start align-items-start gap-2"
-      :class="[isVisible ? '' : 'sidebar-menus-collapsed']"
+      v-for="m in menus"
+      :key="m.id"
+      class="sidebar-menu"
+      @click="requestChangeMenu(m)"
     >
-      <div
-        v-for="m in menus"
-        :key="m.id"
-        class="sidebar-menu"
-        :class="[isVisible ? '' : 'sidebar-menu-collapsed']"
-        @click="requestChangeMenu(m)"
-      >
-        {{ m.name }}
-      </div>
+      {{ m.name }}
     </div>
   </div>
 </template>
@@ -29,19 +17,10 @@
 import { type Menu, useMenuStore } from '~/stores/menu'
 import { type Tab, useTabStore } from '~/stores/tab'
 
-const emit = defineEmits(['update'])
-
 const router = useRouter()
 
 const menuStore = useMenuStore()
 const menus = computed(() => menuStore.menus)
-
-const isVisible = ref(true)
-
-const changeVisibility = () => {
-  isVisible.value = !isVisible.value
-  emit('update', isVisible.value)
-}
 
 const requestChangeMenu = (menu:Menu) => {
   menuStore.select(menu)
@@ -58,38 +37,19 @@ const requestChangeMenu = (menu:Menu) => {
 </script>
 
 <style scoped>
-.sidebar-wrapper {
-  position: relative;
-  width: 160px;
-  height: 100%;
-  padding: 0;
-  background-color:lightcyan;
-  overflow: visible;
-  transition: width 1s;
-}
-.sidebar-wrapper-collapsed {
-  width: 0;
-}
-.sidebar-control-button {
-  position: absolute;
-  top: 0;
-  left: 100%;
-  margin-top: 2px;
-  margin-left: 2px;
-  background: none;
-  background-color: transparent;
-  cursor: pointer;
-  font-size: 14px;
-}
 .sidebar-menus {
   width: 100%;
   height: 100%;
-  padding: 12px;
-  overflow: hidden;
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding-right: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  gap: 8px;
+  align-items: start;
   transition: width 1s, padding 1s;
-}
-.sidebar-menus-collapsed {
-  width: 0;
 }
 .sidebar-menu {
   width: 100%;
@@ -99,7 +59,7 @@ const requestChangeMenu = (menu:Menu) => {
   overflow: hidden;
   font-size: 14px;
   font-weight: 600;
-  text-align: right;
+  text-align: left;
   vertical-align: middle;
   cursor: pointer;
 }

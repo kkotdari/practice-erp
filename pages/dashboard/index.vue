@@ -1,16 +1,13 @@
 <template>
-  <div
-    class="flex flex-column justify-content-start align-items-center" 
-    style="padding: 20px;gap: 16px;">
+  <div class="content">
     <div
-      class="flex justify-content-center"
-      style="height: fit-content;"
+      class="title"
     >
-      <span style="font-size: 20px;font-weight: 800;">
+      <span class="title-text">
         대시보드
       </span>
     </div>
-    <table style="width: fit-content;height: fit-content;">
+    <table class="table-1">
       <thead>
         <tr>
           <td style="width: 80px;"/>
@@ -151,10 +148,23 @@
   </div></template>
 
 <script setup lang="ts">
-import { MyFlex } from '#components';
 </script>
 
 <style scoped>
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+}
+.title {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
 table, tr, th, td {
    border: 1px solid;
    border-collapse: collapse;
