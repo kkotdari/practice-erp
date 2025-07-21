@@ -18,7 +18,8 @@
 import img1 from '~/assets/images/home-product-show/product1.jpg'
 import img2 from '~/assets/images/home-product-show/product2.jpg'
 import img3 from '~/assets/images/home-product-show/product3.jpg'
-const images: string[] = [ img1, img2, img3 ]
+import img4 from '~/assets/images/home-product-show/product4.jpg'
+const images: string[] = [ img1, img2, img3, img4 ]
 </script>
 
 <style lang="css" scoped>
