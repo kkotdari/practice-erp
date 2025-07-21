@@ -102,8 +102,8 @@ const gohome = () => {
 .logo-text-sm {
   position: absolute;
   top: 48px;
-  left: 48px;
-  font-size: 12px;
+  left: 40px;
+  font-size: 14px;
   font-weight: 700;
   color:seagreen;
   white-space: nowrap;
@@ -112,13 +112,13 @@ const gohome = () => {
 }
 .logo-text-lg-shrinked {
   top: 12px;
-  font-size: 10px;
+  font-size: 12px;
   color: whitesmoke;
 }
 .logo-text-sm-shrinked {
   top: 12px;
-  left: 84px;
-  font-size: 10px;
+  left: 96px;
+  font-size: 12px;
   color: whitesmoke;
 }
 .header {
@@ -126,12 +126,12 @@ const gohome = () => {
   display: flex;
   justify-content: end;
   align-items: center;
-  padding: 24px;
+  padding: 12px 24px;
   background-color: darkgreen;
 }
 .header-text {
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   color: whitesmoke;
 }
 .tabbar {
@@ -165,6 +165,7 @@ const gohome = () => {
   margin-top: 4px;
   margin-left: 4px;
   background: none;
+  color: darkgreen;
   cursor: pointer;
   font-size: 14px;
 }
