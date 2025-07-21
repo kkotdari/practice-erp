@@ -19,9 +19,9 @@ export const useMenuStore = defineStore('menus', () => {
         {
           parentId: 'data',
           order: 1,
-          id: 'dashboard',
-          name: '대시보드',
-          path: 'dashboard',
+          id: 'table',
+          name: '테이블',
+          path: 'table',
           subs: [],
         },
         {

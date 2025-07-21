@@ -4,7 +4,7 @@
       class="title"
     >
       <span class="title-text">
-        대시보드
+        테이블
       </span>
     </div>
     <table class="table-1">
