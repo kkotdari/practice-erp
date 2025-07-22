@@ -29,7 +29,7 @@ form {
 input {
   width: 100%;
   height: 25px;
-  border: 2px solid darkgreen;
+  border: 2px solid mediumseagreen;
   border-radius: 4px;
   padding: 4px;
   font-size: 12px;

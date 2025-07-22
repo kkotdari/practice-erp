@@ -1,7 +1,6 @@
 import { type Menu } from '~/stores/menu'
 
 export interface Tab{
-  order: number,
   menu: Menu,
   isCurrent: Boolean,
 }
@@ -17,7 +16,6 @@ export const useTabStore = defineStore('tabs', () => {
       return
     }
 
-    tab.order = openedTabs.value.length
     openedTabs.value.push(tab)
     console.log('tabStore > add > opened tabs length(after): ', openedTabs.value.length)
   }
@@ -27,11 +25,7 @@ export const useTabStore = defineStore('tabs', () => {
     console.log('tabStore > remove > opened tabs length(before): ', openedTabs.value.length)
     openedTabs.value = openedTabs.value.filter((t) => t.menu.id !== tab.menu.id)
     console.log('tabStore > remove > opened tabs length(after): ', openedTabs.value.length)
-    openedTabs.value.forEach((t) => {
-      if (t.order > tab.order) {
-        t.order = t.order - 1
-      }
-    })
+
     // 전체 페이지가 종료됐을 떄 그것을 알리기 위해 선언함.
     isRemoveAll.value = openedTabs.value.length === 0
     console.log('tabStore > isRemoveAll: ', isRemoveAll.value)
@@ -53,6 +47,19 @@ export const useTabStore = defineStore('tabs', () => {
     })
   }
 
+  const move = (fromIdx:number , toIdx: number) => {
+    console.log('tabStore > move fromIdx: ', fromIdx, ', toIdx: ', toIdx)
+    const tab: Tab = openedTabs.value[fromIdx]   
+    console.log('tabStore > move 1: ', openedTabs.value)
+    openedTabs.value.splice(toIdx, 0, tab)
+    console.log('tabStore > move 2: ', openedTabs.value)
+    if (fromIdx > toIdx) {
+      fromIdx++
+    }
+    openedTabs.value.splice(fromIdx, 1)
+    console.log('tabStore > move 3: ', openedTabs.value)
+  } 
+
   const resetRemoveAll = () => {
     isRemoveAll.value = false;
   }
@@ -63,6 +70,7 @@ export const useTabStore = defineStore('tabs', () => {
     add,
     remove,
     select,
+    move,
     resetRemoveAll,
   }
 })
