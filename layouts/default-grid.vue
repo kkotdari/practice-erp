@@ -9,22 +9,33 @@
       <span
         class="logo-text-lg"
         :class="[ isSidebarCollapsed ? 'logo-text-lg-shrinked' : '']"
-        @click="gohome()"
+        @click="goHome()"
       >
         Lotte Chilsung
       </span>
       <span
         class="logo-text-sm"
         :class="[ isSidebarCollapsed ? 'logo-text-sm-shrinked' : '']"
-        @click="gohome()"
+        @click="goHome()"
       >
         홈으로 가기
       </span>
     </div>
     <div class="header">
       <span
-        class="header-text">
-        로그인 | 회원가입
+        class="header-text"
+        @click="goAuth('login')"  
+      >
+        로그인
+      </span>
+      <span>
+        &nbsp;|&nbsp;
+      </span>
+      <span
+        class="header-text"
+        @click="goAuth('signup')"
+      >
+        회원가입
       </span>
     </div>
     <div class="tabbar">
@@ -55,15 +66,23 @@ import Tabbar from '~/pages/tabbar/index.vue'
 import Sidebar from '~/pages/sidebar/index.vue'
 import { useMenuStore } from '~/stores/menu'
 import { useTabStore } from '~/stores/tab'
+import { useAuthStore } from '~/stores/auth'
 const menuStore = useMenuStore()
 const tabStore = useTabStore()
+const authStore = useAuthStore()
 const router = useRouter()
 
 const isSidebarCollapsed = ref<boolean>(false)
-const gohome = () => {
+const goHome = () => {
   menuStore.select(null)
   tabStore.select(null)
   router.push('/')
+}
+const goAuth = (authType: string) => {
+  menuStore.select(null)
+  tabStore.select(null)
+  authStore.authBtnSelected = authType
+  router.push('/auth')
 }
 </script>
 
@@ -128,11 +147,13 @@ const gohome = () => {
   align-items: center;
   padding: 12px 24px;
   background-color: darkgreen;
-}
-.header-text {
   font-size: 12px;
   font-weight: 700;
   color: whitesmoke;
+}
+.header-text:hover {
+  color: darkblue;
+  cursor: pointer;
 }
 .tabbar {
   grid-area: tabbar;
