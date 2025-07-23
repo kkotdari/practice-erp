@@ -6,6 +6,12 @@
     <button
       v-for="(t, idx) in openedTabs" :key="idx"
       class="tab"
+      draggable="true"
+      @dragstart="onDragstart($event, idx)"
+      @dragover.prevent="onDragover($event)"
+      @dragleave.prevent="onDragleave($event)"
+      @dragend="onDragend()"
+      @drop="onDrop($event, idx)"
       @click="requestChangeMenu(t)"
     >
       <div
@@ -21,15 +27,6 @@
           @click.stop="closeTab(t)"
         />
       </div>
-      <div
-        class="drag-zone"
-        draggable="true"
-        @dragstart="onDragstart($event, idx)"
-        @dragover.prevent="onDragover($event)"
-        @dragleave.prevent="onDragleave($event)"
-        @dragend="onDragend()"
-        @drop="onDrop($event, idx)"
-      />
     </button>
   </div>
 </template>
@@ -50,7 +47,7 @@ let contentsPushed: Element | null
 const onDragstart = (e: DragEvent, idx: number) => {
   console.log('tabbar > dragstart')
   fromIdx = idx
-  dragging = (e.currentTarget as Element).parentElement as Element
+  dragging = (e.currentTarget as Element) as Element
   console.log('tabbar > dragstart > dragging: ', dragging)
   makeGhost(e)
   requestAnimationFrame(() => {
@@ -60,7 +57,7 @@ const onDragstart = (e: DragEvent, idx: number) => {
 
 const onDragover = (e: DragEvent) => {
   console.log('tabbar > dragover')
-  tabPushed = (e.currentTarget as Element).parentElement as Element
+  tabPushed = (e.currentTarget as Element) as Element
   tabPushed.classList.add('pushed')
   contentsPushed = tabPushed.children.namedItem('content')
   contentsPushed?.classList.add('pushed')
@@ -68,7 +65,7 @@ const onDragover = (e: DragEvent) => {
 
 const onDragleave = (e: DragEvent) => {
   console.log('tabbar > dragleave')
-  tabPushed = (e.currentTarget as Element).parentElement as Element
+  tabPushed = (e.currentTarget as Element) as Element
   tabPushed.classList.remove('pushed')
   contentsPushed = tabPushed.children.namedItem('content')
   contentsPushed?.classList.remove('pushed')
@@ -78,7 +75,7 @@ const onDrop = (e: DragEvent, idx: number) => {
   console.log('tabbar > drop')
   clearGhost()
   dragging.classList.remove('dragging')
-  tabPushed = (e.currentTarget as Element).parentElement as Element
+  tabPushed = (e.currentTarget as Element) as Element
   tabPushed.classList.remove('pushed')
   contentsPushed = tabPushed.children.namedItem('content')
   contentsPushed?.classList.remove('pushed')
@@ -87,12 +84,13 @@ const onDrop = (e: DragEvent, idx: number) => {
 
 const onDragend = () => {
   console.log('tabbar > dragend')
+  clearGhost()
   dragging.classList.remove('dragging')
 }
 
 const makeGhost = (e: DragEvent) => {
   console.log('tabbar > makeGhost')
-  const t = (e.currentTarget as Element).parentElement as Element
+  const t = (e.currentTarget as Element) as Element
   if (t !== null) {
     ghost = t.cloneNode(true) as Element
     document.body.appendChild(ghost)
@@ -125,6 +123,7 @@ const closeTab = (tab:Tab) => {
 
 <style lang="css" scoped>
 .tabs {
+  width: 100%;
   height: 32px;
   padding: 0;
   margin: 0 0 0 12px;
@@ -144,19 +143,13 @@ const closeTab = (tab:Tab) => {
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: margin-right 0.25s;
 }
 .tab.dragging {
   display: none;
 }
 .tab.pushed {
   margin-right: 24px;
-}
-.drag-zone {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
 }
 .content {
   position: relative;
@@ -167,10 +160,10 @@ const closeTab = (tab:Tab) => {
   width: fit-content;
   height: 100%;
   padding: 6px 10px 8px 10px;
-  border-radius: 2px 2px 0px 0px;
+  border-radius: 4px 4px 0px 0px;
   border: none;
   background: white;
-  transition: transform 0.5s;
+  transition: transform 0.25s;
 }
 .content.pushed {
   transform: translateX(24px);
