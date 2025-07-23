@@ -19,11 +19,18 @@
         :class="t.isCurrent ? 'isCurrent': ''"
         name="content"
       >
-        <span class="name">
+        <span
+          class="name"
+          name="name"
+          @mouseover="onMouseover($event)"
+          @mouseleave="onMouseleave($event)"
+        >
           {{ t.menu.name }}
         </span>
         <i
           class="close-icon pi pi-times"
+          @mouseover="onMouseover($event)"
+          @mouseleave="onMouseleave($event)"
           @click.stop="closeTab(t)"
         />
       </div>
@@ -42,8 +49,19 @@ const openedTabs = computed(() => tabStore.openedTabs)
 let fromIdx: number
 let ghost: Element
 let dragging: Element
-let tabPushed: Element | null
-let contentsPushed: Element | null
+
+const onMouseover = (e: Event) => {
+  console.log('tabbar > onMouseover')
+  const t = e.currentTarget as Element
+  t.classList.add('mouseovered')
+}
+
+const onMouseleave = (e: Event) => {
+  console.log('tabbar > onMouseleave')
+  const t = e.currentTarget as Element
+  t.classList.remove('mouseovered')
+}
+
 const onDragstart = (e: DragEvent, idx: number) => {
   console.log('tabbar > dragstart')
   fromIdx = idx
@@ -57,28 +75,34 @@ const onDragstart = (e: DragEvent, idx: number) => {
 
 const onDragover = (e: DragEvent) => {
   console.log('tabbar > dragover')
-  tabPushed = (e.currentTarget as Element) as Element
-  tabPushed.classList.add('pushed')
-  contentsPushed = tabPushed.children.namedItem('content')
-  contentsPushed?.classList.add('pushed')
+  const tabMouseovered = (e.currentTarget as Element) as Element
+  tabMouseovered.classList.add('mouseovered')
+  const contentMouseovered = tabMouseovered.children.namedItem('content')
+  contentMouseovered?.classList.add('mouseovered')
+  const nameMouseovered = contentMouseovered?.children.namedItem('name')
+  nameMouseovered?.classList.add('mouseovered')
 }
 
 const onDragleave = (e: DragEvent) => {
   console.log('tabbar > dragleave')
-  tabPushed = (e.currentTarget as Element) as Element
-  tabPushed.classList.remove('pushed')
-  contentsPushed = tabPushed.children.namedItem('content')
-  contentsPushed?.classList.remove('pushed')
+  const tabMouseovered = (e.currentTarget as Element) as Element
+  tabMouseovered.classList.remove('mouseovered')
+  const contentMouseovered = tabMouseovered.children.namedItem('content')
+  contentMouseovered?.classList.remove('mouseovered')
+  const nameMouseovered = contentMouseovered?.children.namedItem('name')
+  nameMouseovered?.classList.remove('mouseovered')
 }
 
 const onDrop = (e: DragEvent, idx: number) => {
   console.log('tabbar > drop')
   clearGhost()
   dragging.classList.remove('dragging')
-  tabPushed = (e.currentTarget as Element) as Element
-  tabPushed.classList.remove('pushed')
-  contentsPushed = tabPushed.children.namedItem('content')
-  contentsPushed?.classList.remove('pushed')
+  const tabMouseovered = (e.currentTarget as Element) as Element
+  tabMouseovered.classList.remove('mouseovered')
+  const contentMouseovered = tabMouseovered.children.namedItem('content')
+  contentMouseovered?.classList.remove('mouseovered')
+  const nameMouseovered = contentMouseovered?.children.namedItem('name')
+  nameMouseovered?.classList.remove('mouseovered')
   tabStore.move(fromIdx, idx)
 }
 
@@ -148,7 +172,7 @@ const closeTab = (tab:Tab) => {
 .tab.dragging {
   display: none;
 }
-.tab.pushed {
+.tab.mouseovered {
   margin-right: 24px;
 }
 .content {
@@ -165,7 +189,7 @@ const closeTab = (tab:Tab) => {
   background: white;
   transition: transform 0.25s;
 }
-.content.pushed {
+.content.mouseovered {
   transform: translateX(24px);
 }
 .content::after {
@@ -195,7 +219,7 @@ const closeTab = (tab:Tab) => {
   font-weight: 600;
   color: seagreen;
 }
-.name:hover {
+.name.mouseovered {
   color: darkblue;
   cursor: pointer;
 }
@@ -204,7 +228,7 @@ const closeTab = (tab:Tab) => {
   font-weight: 500;
   color: seagreen;
 }
-.close-icon:hover {
+.close-icon.mouseovered {
   color: darkblue;
   cursor: pointer;
 }
