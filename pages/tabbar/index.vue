@@ -6,25 +6,30 @@
     <button
       v-for="(t, idx) in openedTabs" :key="idx"
       class="tab"
-      draggable="true"
-      @dragstart="onDragstart(idx)"
-      @dragover.prevent="onDragover($event)"
-      @dragleave.prevent="onDragleave($event)"
-      @drop="onDrop($event, idx)"
       @click="requestChangeMenu(t)"
     >
       <div
-        class="tab-container"
+        class="content"
         :class="t.isCurrent ? 'isCurrent': ''"
+        name="content"
       >
-        <span class="tab-name">
+        <span class="name">
           {{ t.menu.name }}
         </span>
         <i
-          class="tab-close-icon pi pi-times"
+          class="close-icon pi pi-times"
           @click.stop="closeTab(t)"
         />
       </div>
+      <div
+        class="drag-zone"
+        draggable="true"
+        @dragstart="onDragstart($event, idx)"
+        @dragover.prevent="onDragover($event)"
+        @dragleave.prevent="onDragleave($event)"
+        @dragend="onDragend()"
+        @drop="onDrop($event, idx)"
+      />
     </button>
   </div>
 </template>
@@ -38,35 +43,66 @@ const router = useRouter()
 const openedTabs = computed(() => tabStore.openedTabs)
 
 let fromIdx: number
-
-const onDragstart = (idx: number) => {
+let ghost: Element
+let dragging: Element
+let tabPushed: Element | null
+let contentsPushed: Element | null
+const onDragstart = (e: DragEvent, idx: number) => {
   console.log('tabbar > dragstart')
   fromIdx = idx
+  dragging = (e.currentTarget as Element).parentElement as Element
+  console.log('tabbar > dragstart > dragging: ', dragging)
+  makeGhost(e)
+  requestAnimationFrame(() => {
+    dragging.classList.add('dragging')
+  })
 }
 
 const onDragover = (e: DragEvent) => {
   console.log('tabbar > dragover')
-  const targetTab = (e.currentTarget as Element)
-  const rect = targetTab.getBoundingClientRect()
-  const x = e.clientX - rect.left
-  if (x < rect.width * 0.5) {
-    targetTab?.classList.add('pushed')
-  } else {
-    targetTab?.classList.remove('pushed')
-  }
+  tabPushed = (e.currentTarget as Element).parentElement as Element
+  tabPushed.classList.add('pushed')
+  contentsPushed = tabPushed.children.namedItem('content')
+  contentsPushed?.classList.add('pushed')
 }
 
 const onDragleave = (e: DragEvent) => {
   console.log('tabbar > dragleave')
-  const targetTab = (e.currentTarget as Element)
-  targetTab?.classList.remove('pushed')
+  tabPushed = (e.currentTarget as Element).parentElement as Element
+  tabPushed.classList.remove('pushed')
+  contentsPushed = tabPushed.children.namedItem('content')
+  contentsPushed?.classList.remove('pushed')
 }
 
 const onDrop = (e: DragEvent, idx: number) => {
   console.log('tabbar > drop')
-  const targetTab = (e.currentTarget as Element)
-  targetTab?.classList.remove('pushed')
+  clearGhost()
+  dragging.classList.remove('dragging')
+  tabPushed = (e.currentTarget as Element).parentElement as Element
+  tabPushed.classList.remove('pushed')
+  contentsPushed = tabPushed.children.namedItem('content')
+  contentsPushed?.classList.remove('pushed')
   tabStore.move(fromIdx, idx)
+}
+
+const onDragend = () => {
+  console.log('tabbar > dragend')
+  dragging.classList.remove('dragging')
+}
+
+const makeGhost = (e: DragEvent) => {
+  console.log('tabbar > makeGhost')
+  const t = (e.currentTarget as Element).parentElement as Element
+  if (t !== null) {
+    ghost = t.cloneNode(true) as Element
+    document.body.appendChild(ghost)
+    e.dataTransfer?.setDragImage(ghost, 0, 0)
+  }
+}
+
+const clearGhost = () => {
+  console.log('tabbar > clearGhost')
+  ghost.remove()
 }
 
 const requestChangeMenu = (tab:Tab) => {
@@ -92,32 +128,54 @@ const closeTab = (tab:Tab) => {
   height: 32px;
   padding: 0;
   margin: 0 0 0 12px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
 }
 .tab {
+  position: relative;
   width: fit-content;
-  height: 100%;
+  height: 32px;
   padding: 0;
   margin: 0;
-  overflow: hidden;
-  background: white;
-  border-radius: 2px 2px 0px 0px;
+  overflow: visible;
   border: none;
-  transition: margin-left 0.5s;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.tab.dragging {
+  display: none;
 }
 .tab.pushed {
-  margin-left: 32px; 
+  margin-right: 24px;
 }
-.tab-container {
+.drag-zone {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+.content {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 8px;
-  width: 100%;
+  width: fit-content;
   height: 100%;
   padding: 6px 10px 8px 10px;
+  border-radius: 2px 2px 0px 0px;
+  border: none;
+  background: white;
+  transition: transform 0.5s;
 }
-.tab-container::after {
+.content.pushed {
+  transform: translateX(24px);
+}
+.content::after {
   content: '';
   position: absolute;
   bottom: 0; left: 0;
@@ -134,26 +192,26 @@ const closeTab = (tab:Tab) => {
   transition: opacity 1s cubic-bezier(.075,.82,.165,1);
   pointer-events: none;
 }
-.tab-container.isCurrent::after {
+.content.isCurrent::after {
   opacity: 1;
 }
-.tab-name {
+.name {
   padding-top: 1px;
   white-space: nowrap;
   font-size: 14px;
   font-weight: 600;
   color: seagreen;
 }
-.tab-name:hover {
+.name:hover {
   color: darkblue;
   cursor: pointer;
 }
-.tab-close-icon {
+.close-icon {
   width: 14px;
   font-weight: 500;
   color: seagreen;
 }
-.tab-close-icon:hover {
+.close-icon:hover {
   color: darkblue;
   cursor: pointer;
 }
